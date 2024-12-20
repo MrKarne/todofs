@@ -1,0 +1,190 @@
+
+* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 0;
+}
+
+.head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: linear-gradient(to right, #4CAF50, #81C784);
+    color: white;
+    border-bottom: 2px solid #388E3C;
+}
+
+.header {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.headright {
+    display: flex;
+    gap: 10px;
+}
+
+.newtask {
+    background-color: #388E3C;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: 600;
+    user-select: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.newtask:hover {
+    background-color: #f4f7f6;
+    color: #388E3C;
+}
+
+.newtask:active {
+    background-color: #388E3C;
+    color: #fff;
+}
+
+.tada {
+    display: flex;
+    flex-direction: column;
+    width: 96vw;
+    margin: 10px auto;
+    gap: 10px;
+}
+
+.task {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    padding: 12px 15px;
+    width: 100%;
+    max-width: 100%; /* Ensure it takes full width */
+    gap: 15px;
+    transition: box-shadow 0.3s ease;
+}
+
+.task:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.tasktext {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: #333;
+    font-size: 16px;
+    font-weight: 500;
+    outline: none;
+    resize: none;
+}
+
+.tasktext:focus {
+    border: 1px solid transparent;
+    outline: none;
+}
+
+.he {
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.dele {
+    background-color: #FF6F61;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-transform: uppercase;
+    font-weight: 600;
+    /* min-width: 80px; Ensures minimum width for the delete button */
+    align-self: center;
+}
+
+.dele:hover {
+    background-color: #ff1509;
+}
+
+.dele svg {
+    width: 20px;
+    height: 20px;
+}
+
+textarea:focus, textarea:active {
+    border: 1px solid rgba(0, 0, 0, 0);
+    outline: none;
+}
+
+hr {
+    margin: 10px 0;
+    border: 0;
+    border-top: 1px solid #E0E0E0;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+}
+
+.headright .newtask:last-child {
+    margin-left: auto;
+}
+
+/* Ensure that task and delete button stay aligned horizontally */
+.task {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+}
+.tada{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.task .dele {
+    margin-left: 15px; /* Keep space between task text and delete button */
+    flex-shrink: 0; /* Prevent the delete button from shrinking */
+}
+
+/* Add media query for responsiveness */
+@media (max-width: 768px) {
+    .head {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .headright {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 10px;
+    }
+/* 
+    .task {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    } */
+
+    .tasktext {
+        font-size: 14px;
+    }
+
+    .dele {
+        align-self: flex-end;
+        /* margin-top: 10px; */
+        padding-top: 10px;
+    }
+}

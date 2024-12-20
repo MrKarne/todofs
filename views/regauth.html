@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal Login & Signup</title>
+    <style>
+        /* General Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Card container */
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            width: 320px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* Input fields */
+        .form-control {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        /* Buttons */
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Messages */
+        .message {
+            margin: 15px 0;
+            color: #e74c3c;
+            font-size: 14px;
+        }
+
+        .success {
+            color: #27ae60;
+        }
+
+        /* Toggle Links */
+        .toggle {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .toggle a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .toggle a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="form-container">
+        <h2 id="form-title">Login</h2>
+        <form id="login-form">
+            <div class="form-control">
+                <label for="user">Username</label>
+                <input type="username" id="user" name="user" placeholder="Enter your username">
+            </div>
+            <div class="form-control">
+                <label for="pwd">Password</label>
+                <input type="password" id="pwd" name="pwd" placeholder="Enter your password">
+            </div>
+            <button type="submit" id="submit-button">Login</button>
+            <div class="message" id="message"></div>
+            <div class="toggle">
+                <a href="#" id="toggle-signup">Don't have an account? Sign up</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const container = document.getElementById('form-container');
+        const formTitle = document.getElementById('form-title');
+        const form = document.getElementById('login-form');
+        const messageDiv = document.getElementById('message');
+        const toggleLink = document.getElementById('toggle-signup');
+        const submitButton = document.getElementById('submit-button');
+    
+        let isSignup = false;
+    
+        // Toggle between Login and Signup
+        toggleLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            isSignup = !isSignup;
+            if (isSignup) {
+                formTitle.textContent = 'Sign Up';
+                submitButton.textContent = 'Sign Up';
+                toggleLink.innerHTML = 'Already have an account? <a href="#">Login</a>';
+            } else {
+                formTitle.textContent = 'Login';
+                submitButton.textContent = 'Login';
+                toggleLink.innerHTML = "Don't have an account? <a href='#'>Sign up</a>";
+            }
+            messageDiv.textContent = '';
+        });
+    
+        // Handle form submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            messageDiv.textContent = '';
+            const user = document.getElementById('user').value.trim();
+            const pwd = document.getElementById('pwd').value.trim();
+    
+            if (!user || !pwd) {
+                showMessage('Please provide both username and password.', false);
+                return;
+            }
+    
+            try {
+                const endpoint = isSignup ? './register' : './auth';
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ user, pwd })
+                });
+    
+                const data = await response.json();
+    
+                if (response.ok) {
+                    showMessage(data.message || 'Success!', true);
+                    if (isSignup) {
+                        // After successful signup, switch back to Login form
+                        isSignup = false;
+                        formTitle.textContent = 'Login';
+                        submitButton.textContent = 'Login';
+                        toggleLink.innerHTML = "Don't have an account? <a href='#'>Sign up</a>";
+                    }
+                    // setTimeout(()=>{
+
+                        window.location.href = '/index'
+                    // }, 60000)
+                } else {
+                    showMessage(data.message || 'Authentication failed.', false);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('Something went wrong. Please try again later.', false);
+            }
+        });
+    
+        // Display messages
+        function showMessage(message, isSuccess) {
+            messageDiv.textContent = message;
+            messageDiv.className = isSuccess ? 'message success' : 'message';
+        }
+    </script>
+    
+</body>
+</html>

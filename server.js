@@ -41,7 +41,7 @@ app.use(cookieParser());
 app.use('/', express.static(path.join(__dirname, '/public')));
 
 // routes
-app.use('/', require('./routes/root'));
+app.use('/regauth', require('./routes/root'));
 app.use('/register', require('./routes/register'));
 app.use('/auth', require('./routes/auth'));
 app.use('/refresh', require('./routes/refresh'));
@@ -59,7 +59,8 @@ app.use('/load', verifyJWT, require('./routes/loadData'))
 // You don't want it to check JWT for register and auth obviously
 
 // app.use('/users', require('./routes/api/users'));
-app.use('/index(.html)?', verifyJWT, require('./routes/index'));
+// app.use('/index(.html)?', verifyJWT, require('./routes/index'));
+app.use('^/$|/index(.html)?', verifyJWT, require('./routes/index'));
 
 
 app.all('*', (req, res) => {
